@@ -51,8 +51,8 @@ public:
 
   
 void UpdateCamera() {
-    pce::cam_op::updateCameraPositionOriginFocus(camera_, keyboard_);
-  }
+  pce::cam_op::updateCameraPositionOriginFocus(camera_, keyboard_);
+}
     
 
 private:

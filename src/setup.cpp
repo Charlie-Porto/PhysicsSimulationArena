@@ -14,9 +14,11 @@
 #include "ecs/systems/CameraOperatorSystem.cpp"
 #include "ecs/systems/ObjectPositionTransformerSystem.cpp"
 #include "ecs/systems/RadarSystem.cpp"
+#include "ecs/systems/RenderSystem.cpp"
 
 /* other */
 #include "ecs/entity_factories/AxisGenerator.cpp"
+#include "ecs/entity_factories/PlatformManager.cpp"
 
 extern ControlPanel control;
 
@@ -49,6 +51,14 @@ public:
     radar_sig.set(control.GetComponentType<pce::Radar>());
     control.SetSystemSignature<pce::RadarSystem>(radar_sig);
 
+    render_system_ = control.RegisterSystem<pce::RenderSystem>();
+    Signature render_sig;
+    render_sig.set(control.GetComponentType<pce::Radar>());
+    control.SetSystemSignature<pce::RenderSystem>(render_sig);
+
+    platform_manager_ = PlatformManager();
+    platform_manager_.Init();
+
     axis_generator_ = AxisGenerator();
     axis_generator_.BuildXAxis();
     axis_generator_.BuildYAxis();
@@ -64,9 +74,8 @@ public:
 
     position_transform_system_->UpdateEntities(cam_tvec, cam_versor, cam_pos);
     radar_system_->UpdateEntities();
+    render_system_->RenderPlatform();
   }
-  
-  
 
 
 
@@ -75,9 +84,11 @@ private:
   std::shared_ptr<pce::CameraOperatorSystem> camera_operator_system_;
   std::shared_ptr<pce::ObjectPositionTransformerSystem> position_transform_system_;
   std::shared_ptr<pce::RadarSystem> radar_system_;
+  std::shared_ptr<pce::RenderSystem> render_system_;
   
   // other 
   AxisGenerator axis_generator_;
+  PlatformManager platform_manager_;
   
 
 };

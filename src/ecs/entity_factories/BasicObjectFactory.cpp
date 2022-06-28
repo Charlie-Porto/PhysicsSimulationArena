@@ -21,9 +21,9 @@ const double min_r = 5.0;
 const double max_r = 20.0;
 
 
-class SphereObjectFactory {
+class BasicObjectFactory {
 public:
-  SphereObjectFactory() { ezp::print_item("creating SphereObjectFactory"); }
+  BasicObjectFactory() { ezp::print_item("creating BasicObjectFactory"); }
 
 
   glm::dvec3 GetRandomLocation() {
@@ -38,6 +38,17 @@ public:
   double GetRandomRadius() {
     const double rand_radius = get_rand_double_between_two_doubles(min_r, max_r);
     return rand_radius;
+  }
+
+  void MakePointObjectAtLocation(const glm::dvec3& location){
+    vezp::print_labeled_dvec3("creating object at", location);
+    Entity object = control.CreateEntity();
+    control.AddComponent(object, pce::Position{
+      .actual = location,
+      .rotated = location
+    });
+    control.AddComponent(object, pce::Radar{});
+    objects_.push_back(object);
   }
 
 
@@ -55,6 +66,8 @@ public:
     });
     objects_.push_back(object);
   }
+
+
 
 private:
   std::vector<Entity> objects_;

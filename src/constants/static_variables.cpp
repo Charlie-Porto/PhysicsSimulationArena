@@ -13,6 +13,11 @@ namespace global_const {
 const int screen_x = 1000;
 const int screen_y = 672;
 
+// main platform
+const double platform_height = 0;
+const double platform_length = 100.0;
+const double platform_width = 100.0;
+
 // lens
 const double lense_curve_index = 0.03;
 

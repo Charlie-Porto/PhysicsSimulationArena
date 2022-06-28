@@ -48,6 +48,18 @@ void drawQuadrilateral(const std::vector<glm::dvec2> points, std::vector<int> co
   SDL_SetRenderDrawColor(Simulation::renderer, 0, 0, 0, 255);
 }
 
+void drawFilledQuadrilateral(const std::vector<glm::dvec2> points, std::vector<int> color) {
+  auto const tri_a = pce::math_objs::Triangle{
+    .points = {points[0], points[1], points[2]}
+  };
+  auto const tri_b = pce::math_objs::Triangle{
+    .points = {points[0], points[2], points[3]}
+  };
+
+  pce::rast::renderFilledTriangle(tri_a, Simulation::renderer, 1.0, {255, 255, 255, 255});
+  pce::rast::renderFilledTriangle(tri_b, Simulation::renderer, 1.0, {255, 255, 255, 255});
+}
+
 
 void drawQuadrilateralWithDistanceColor(const std::vector<glm::dvec2> points, double distance) {
   const std::vector<int> color = determineColorAsFunctionOfDistance(distance); 
